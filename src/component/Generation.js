@@ -4,9 +4,23 @@ import '../style/generation.css'
 
 export const Generation = () => {
 
-    const [input,setInput]= useState('');
-    const [qeCode,setQrCode] = useState('');
-    const [load,setLoad] = useState(false);
+    const [input, setInput] = useState('');
+    const [qeCode, setQrCode] = useState();
+    const [load, setLoad] = useState(false);
+
+    const api = ` https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${input}`
+    
+    const generationQr = async (e) => {
+        e.preventDefault()
+
+        try {
+            setLoad(true)
+            const resp = await api;
+            setQrCode(resp.url)
+        }catch (err){
+            console.log(err)
+        }
+    }
 
     return <>
         <form className='generation__from'>
